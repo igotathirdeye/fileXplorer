@@ -6,9 +6,9 @@ also this is my first project where i use CMake
 make sure you have CMake
 so first, run this if you have no build folder yet:
 `mkdir build`
-`cd build`
 
 then run:
+`cd build`
 `cmake ..`
 
 and finally:
