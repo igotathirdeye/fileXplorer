@@ -4,6 +4,7 @@ also this is my first project where i use CMake
 
 # INSTALLING fileXplorer
 make sure you have CMake
+
 so first, run this if you have no build folder yet:
 `mkdir build`
 
