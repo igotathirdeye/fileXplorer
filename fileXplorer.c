@@ -28,7 +28,7 @@
         char command[1024];
 
         getcwd(path, sizeof(path));
-        printf("v0.03.2\n");
+        printf("v0.03.3\n");
         printf("Welcome to fileXplorer on Windows!\n");
         printf("Enter 'cd <dirname>' to move, or 'exit' (use man to print out all the commands): \n");
         list_files(path);
@@ -78,7 +78,23 @@
         printf("\n--- Contents of %s ---\n", path);
         while ((entry = readdir(dir)) != NULL) {
             // distinguish between directories and files
-            const char *type = (entry->d_type == DT_DIR) ? "[DIR] " : "[FILE]";
+            if (entry->d_type == DT_UNKNOWN) {
+                // fallback: stat() the file to determine if it's a directory
+                struct stat st;
+                char fullpath[2048];
+                snprintf(fullpath, sizeof(fullpath), "%s/%s", path, entry->d_name);
+                stat(fullpath, &st);
+                if (S_ISDIR(st.st_mode)) {
+                    printf("[DIR]  %s\n", entry->d_name);
+                } else {
+                    printf("[FILE] %s\n", entry->d_name);
+                }
+            } else if (entry->d_type == DT_DIR) {
+                printf("[DIR]  %s\n", entry->d_name);
+            } else {
+                printf("[FILE] %s\n", entry->d_name);
+            }
+
             printf("%s %s\n", type, entry->d_name);
         }
         closedir(dir);
@@ -89,7 +105,7 @@
         char command[1024];
 
         getcwd(path, sizeof(path));
-        printf("v0.03.2\n");
+        printf("v0.03.3\n");
         printf("Welcome to fileXplorer on Linux/macOS!\n");
         printf("Enter 'cd <dirname>' to move, or 'exit' (use man to print out all the commands): \n");
         list_files(path);
