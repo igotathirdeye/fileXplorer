@@ -65,6 +65,7 @@
     #include <dirent.h>
     #include <string.h>
     #include <unistd.h>
+    #include <sys/stat.h>
 
     void list_files(const char *path) {
         struct dirent *entry;
@@ -94,8 +95,6 @@
             } else {
                 printf("[FILE] %s\n", entry->d_name);
             }
-
-            printf("%s %s\n", type, entry->d_name);
         }
         closedir(dir);
     }
